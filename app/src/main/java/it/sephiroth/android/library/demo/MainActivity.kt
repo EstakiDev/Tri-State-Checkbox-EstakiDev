@@ -3,18 +3,20 @@ package it.sephiroth.android.library.demo
 import android.os.Bundle
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import it.sephiroth.android.library.demo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var checkbox_array: Array<CheckBox>
+    private lateinit var viewBinding: ActivityMainBinding
     var listenToUpdates = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
-        checkBox1.setOnCheckedChangeListener { buttonView, isChecked ->
+        viewBinding.checkBox1.setOnCheckedChangeListener { buttonView, isChecked ->
             if (listenToUpdates) {
                 listenToUpdates = false
                 if (!isChecked) {
@@ -22,8 +24,8 @@ class MainActivity : AppCompatActivity() {
                 } else if (isChecked) {
                     checkbox_array.forEach { it.isChecked = true }
                 }
-                checkBox1.text = if(isChecked) "Select None" else "Select All"
-                checkBox1.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
+                viewBinding.checkBox1.text = if(isChecked) "Select None" else "Select All"
+                viewBinding.checkBox1.setCycle(it.sephiroth.android.library.checkbox3state.R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
                 listenToUpdates = true
             }
         }
@@ -33,26 +35,26 @@ class MainActivity : AppCompatActivity() {
     override fun onContentChanged() {
         super.onContentChanged()
 
-        checkbox_array = arrayOf(checkBox2, checkBox3, checkBox4)
+        checkbox_array = arrayOf(viewBinding.checkBox2, viewBinding.checkBox3, viewBinding.checkBox4)
 
-        checkbox_array.forEach {
-            it.setOnCheckedChangeListener { buttonView, isChecked ->
+        checkbox_array.forEach { checkBox->
+            checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (listenToUpdates) {
                     listenToUpdates = false
-                    val checked_size = checkbox_array.filter { it.isChecked }.size
+                    val checked_size = checkbox_array.filter { checkBox.isChecked }.size
 
                     if (checked_size == checkbox_array.size) {
-                        checkBox1.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
-                        checkBox1.setChecked(true, false)
-                        checkBox1.text = "Select None"
+                        viewBinding.checkBox1.setCycle(it.sephiroth.android.library.checkbox3state.R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
+                        viewBinding.checkBox1.setChecked(true, false)
+                        viewBinding.checkBox1.text = "Select None"
                     } else if (checked_size == 0) {
-                        checkBox1.setCycle(R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
-                        checkBox1.setChecked(false, false)
-                        checkBox1.text = "Select All"
+                        viewBinding.checkBox1.setCycle(it.sephiroth.android.library.checkbox3state.R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
+                        viewBinding.checkBox1.setChecked(false, false)
+                        viewBinding.checkBox1.text = "Select All"
                     } else {
-                        checkBox1.setCycle(R.array.sephiroth_checkbox3_cycleAll)
-                        checkBox1.setChecked(false, true)
-                        checkBox1.text = "Select All"
+                        viewBinding.checkBox1.setCycle(it.sephiroth.android.library.checkbox3state.R.array.sephiroth_checkbox3_cycleAll)
+                        viewBinding.checkBox1.setChecked(false, true)
+                        viewBinding.checkBox1.text = "Select All"
                     }
                     listenToUpdates = true
                 }

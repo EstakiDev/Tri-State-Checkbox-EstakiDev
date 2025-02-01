@@ -1,5 +1,7 @@
 package it.sephiroth.android.library.checkbox3state;
 
+import static it.sephiroth.android.library.checkbox3state.ConstansKt.isDebugMode;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -13,7 +15,7 @@ public class CheckBox3 extends AppCompatCheckBox {
     private static final Timber.Tree logger;
 
     static {
-        if (BuildConfig.DEBUG) {
+        if (isDebugMode()) {
             Timber.plant(new Timber.DebugTree());
         }
         logger = Timber.asTree();
@@ -115,7 +117,7 @@ public class CheckBox3 extends AppCompatCheckBox {
     public void setCycle(final int[] cycle) {
         validateCycle(cycle);
 
-        if (BuildConfig.DEBUG) {
+        if (isDebugMode()) {
             StringBuilder builder = new StringBuilder("[");
             for (int i : cycle) {
                 builder.append(i);
