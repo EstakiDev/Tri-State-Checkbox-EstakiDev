@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (listenToUpdates) {
                     listenToUpdates = false
-                    val checked_size = checkbox_array.filter { checkBox.isChecked }.size
+                    val checked_size = checkbox_array.filter { it.isChecked }.size
 
                     if (checked_size == checkbox_array.size) {
                         viewBinding.checkBox1.setCycle(it.sephiroth.android.library.checkbox3state.R.array.sephiroth_checkbox3_cycleCheckedUncheckedOnly)
