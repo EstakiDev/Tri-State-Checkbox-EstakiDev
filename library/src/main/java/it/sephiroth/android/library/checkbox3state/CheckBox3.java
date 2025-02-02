@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewDebug;
+import android.widget.CompoundButton;
 import androidx.annotation.ArrayRes;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import timber.log.Timber;
@@ -23,8 +24,10 @@ public class CheckBox3 extends AppCompatCheckBox {
 
     private boolean mBroadcasting;
     private boolean mIndeterminate;
+    private CheckStates checkState = CheckStates.UNCHECKED;
 
     private OnCheckedChangeListener mOnCheckedChangeListener;
+    private NotifyWhenChange myCallback;
 
 
     private static final int[] INDETERMINATE_STATE_SET = {
@@ -142,6 +145,24 @@ public class CheckBox3 extends AppCompatCheckBox {
         moveToNextState(currentIndex);
     }
 
+    public void toggleWithCheckState(CheckStates destinationCheckState) {
+        logger.i("toggle()");
+        switch (destinationCheckState) {
+            case CHECKED -> {
+                setChecked(true, false);
+                break;
+            }
+            case INDETERMINATED -> {
+                setChecked(true, true);
+                break;
+            }
+            case UNCHECKED -> {
+                setChecked(false, false);
+                break;
+            }
+        }
+    }
+
     @Override
     public void setChecked(boolean checked) {
         if (null == mCycle) return;
@@ -199,7 +220,36 @@ public class CheckBox3 extends AppCompatCheckBox {
         logger.v("nextIndex: %d", nextIndex);
         boolean checked = nextIndex < 2;
         mIndeterminate = nextIndex == 1 || nextIndex == 3;
+        if (checked && !mIndeterminate)
+            checkState = CheckStates.CHECKED;
+        else if (mIndeterminate)
+            checkState = CheckStates.INDETERMINATED;
+        else
+            checkState = CheckStates.UNCHECKED;
+
+        if (myCallback != null)
+            myCallback.onMyCheckedChanged(this, checked, checkState == CheckStates.INDETERMINATED);
         setChecked(checked);
+    }
+
+    public int getCheckState() {
+        if (checkState == CheckStates.CHECKED && !mIndeterminate)
+            return 1;
+        else if (mIndeterminate)
+            return -1;
+        else
+            return 0;
+    }
+
+    public void setCheckState(int checkState) throws IllegalArgumentException {
+        if (checkState == 1)
+            this.checkState = CheckStates.CHECKED;
+        else if (checkState == -1)
+            this.checkState = CheckStates.INDETERMINATED;
+        else if (checkState == 0)
+            this.checkState = CheckStates.UNCHECKED;
+        else throw new IllegalArgumentException("checkState must be one of [-1,0,1]");
+        toggleWithCheckState(this.checkState);
     }
 
     private void moveToState(final int nextIndex) {
@@ -279,6 +329,10 @@ public class CheckBox3 extends AppCompatCheckBox {
         mOnCheckedChangeListener = listener;
     }
 
+    public void setOnNotifyListener(final NotifyWhenChange listener) {
+        myCallback = listener;
+    }
+
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
@@ -320,5 +374,9 @@ public class CheckBox3 extends AppCompatCheckBox {
     @Override
     public CharSequence getAccessibilityClassName() {
         return CheckBox3.class.getName();
+    }
+
+    public interface NotifyWhenChange {
+        void onMyCheckedChanged(CompoundButton buttonView, boolean isChecked, boolean isIndetermianted);
     }
 }

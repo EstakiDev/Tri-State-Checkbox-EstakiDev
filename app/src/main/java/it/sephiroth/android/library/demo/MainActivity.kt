@@ -1,7 +1,9 @@
 package it.sephiroth.android.library.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.CheckBox
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import it.sephiroth.android.library.demo.databinding.ActivityMainBinding
 
@@ -29,6 +31,12 @@ class MainActivity : AppCompatActivity() {
                 listenToUpdates = true
             }
         }
+
+        viewBinding.getCheckStateInt.setOnClickListener {
+            val currentStateInt = viewBinding.threeStateSingleCheckBox.checkState
+            Toast.makeText(this, "current state Int $currentStateInt", Toast.LENGTH_SHORT).show()
+        }
+        viewBinding.checkStateGuide.text = "${viewBinding.checkStateGuide.text} \n [Checked => 1, Unchecked => 0, Indeterminated => -1]"
 
     }
 
@@ -58,6 +66,22 @@ class MainActivity : AppCompatActivity() {
                     }
                     listenToUpdates = true
                 }
+            }
+        }
+
+        viewBinding.threeStateSingleCheckBox.setOnNotifyListener { buttonView, isChecked, isIndetermianted ->
+            Toast.makeText(this, "isIndetermianted $isIndetermianted \nisChecked $isChecked", Toast.LENGTH_SHORT).show()
+        }
+
+        viewBinding.apply {
+            unchecked.setOnClickListener {
+                viewBinding.threeStateSingleCheckBox.checkState = 0
+            }
+            checked.setOnClickListener {
+                viewBinding.threeStateSingleCheckBox.checkState = 1
+            }
+            indeterminated.setOnClickListener {
+                viewBinding.threeStateSingleCheckBox.checkState = -1
             }
         }
     }

@@ -62,4 +62,74 @@
         app:layout_constraintStart_toStartOf="@+id/checkBox3"
         app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
 
+    <TextView
+        android:id="@+id/checkStateGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Check State Int Guide: "
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/three_state_single_checkBox"
+        app:layout_constraintEnd_toEndOf="@+id/three_state_single_checkBox"
+        app:layout_constraintStart_toStartOf="@+id/three_state_single_checkBox"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"/>
+
+    <it.sephiroth.android.library.checkbox3state.CheckBox3
+        android:id="@+id/three_state_single_checkBox"
+        style="@style/Sephiroth.Widget.Checkbox3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:enabled="true"
+        android:text="Three State Single CheckBox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sephiroth_checkbox3_checkableCycle="@array/sephiroth_checkbox3_cycleIndeterminate"
+        app:sephiroth_checkbox3_indeterminate="false" />
+
+    <Button
+        android:id="@+id/checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="checked"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/three_state_single_checkBox" />
+
+    <Button
+        android:id="@+id/unchecked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unchecked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/checked" />
+
+    <Button
+        android:id="@+id/indeterminated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="indeterminated"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unchecked" />
+
+    <Button
+        android:id="@+id/getCheckStateInt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Check State Int"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indeterminated" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
