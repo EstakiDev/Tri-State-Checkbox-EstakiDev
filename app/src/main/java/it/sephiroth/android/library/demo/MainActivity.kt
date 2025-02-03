@@ -1,7 +1,6 @@
 package it.sephiroth.android.library.demo
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
